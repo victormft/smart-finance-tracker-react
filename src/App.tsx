@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Dashboard } from './components/Dashboard';
+import { TransactionForm } from './components/TransactionForm';
 
 type Transaction = {
   id: number;
@@ -21,10 +22,22 @@ const App: React.FC = () => {
     console.log('Initial state of transactions:', transactions);
   }, [transactions]);
 
+  const handleAddTransaction = (tx: { description: string; value: number; type: 'income' | 'expense' }) => {
+    const newTransaction: Transaction = {
+      id: Date.now(),
+      description: tx.description,
+      value: tx.value,
+      type: tx.type,
+      category: '', // or 'General'
+    };
+    setTransactions(prev => [...prev, newTransaction]);
+  };
+
   return (
     <div style={{ padding: '20px', fontFamily: 'sans-serif' }}>
       <h1>Personal Finance</h1>
       <Dashboard transactions={transactions} />
+      <TransactionForm onAddTransaction={handleAddTransaction} />
     </div>
   );
 };

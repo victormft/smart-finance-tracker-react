@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Dashboard } from './components/Dashboard';
 import { TransactionForm } from './components/TransactionForm';
+import { TransactionList } from './components/TransactionList';
 
 type Transaction = {
   id: number;
@@ -33,11 +34,16 @@ const App: React.FC = () => {
     setTransactions(prev => [...prev, newTransaction]);
   };
 
+  const handleDeleteTransaction = (id: number) => {
+    setTransactions(prev => prev.filter(t => t.id !== id));
+  };
+
   return (
     <div style={{ padding: '20px', fontFamily: 'sans-serif' }}>
       <h1>Personal Finance</h1>
       <Dashboard transactions={transactions} />
       <TransactionForm onAddTransaction={handleAddTransaction} />
+      <TransactionList transactions={transactions} onDeleteTransaction={handleDeleteTransaction} />
     </div>
   );
 };
